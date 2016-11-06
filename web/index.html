@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!--
+This code was developed by Edmundo Carrillo on java technologies.
+Contact: edmundodev@gmail.com
+Hope you'll find it useful.
+-->
+<html lang="en">
+    <head>
+        <title>Ehecacoatl</title>
+        <link href="lib/css/ol.css" rel="stylesheet" type="text/css"/>
+        <link href="lib/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="lib/css/customCss.css" rel="stylesheet" type="text/css"/>
+        <script src="lib/js/ol.js" type="text/javascript"></script>
+
+    </head>
+    <body ondblclick="mostrarMenuPrincipal(event);" >
+        <div id="map" class="map"><div id="popup"></div></div>
+        <div id="customlat" >
+            &nbsp; Longitud
+            &nbsp;
+            ,
+            &nbsp;
+            Latitud&nbsp;&nbsp;
+        </div>
+        <div id="menu-pr">
+            <button onclick="agregarMarcador()"><img src="lib/img/pin_drop.png" class="iconStyle" alt=""/> &nbsp; Agregar marcador</button>
+            <button onclick="ocultarMenuPrincipal()"><img src="lib/img/cancel.png" class="iconStyle" alt=""/> &nbsp; Cancelar</button>
+        </div>
+        <div id="menu-sc">
+            <button onclick="mostrarMenuDatos(event)"><img src="lib/img/lupa.png" class="iconStyle" alt=""/> &nbsp;Resumen de información</button>
+            <button onclick="mostrarForecast()"><img src="lib/img/clima.png" class="iconStyle" alt=""/> &nbsp;Pronostico del tiempo</button>
+            <button onclick="eliminarMarcador()"><img src="lib/img/borrar.png" class="iconStyle" alt=""/> &nbsp;Eliminar marcador</button>
+
+
+        </div>
+
+        <div id="myPopup">
+            <div id="tituloTiempo"><center>TIEMPO ACTUAL</center></div>
+
+            <div id="tableWeather">
+
+                <table style=" width:100%;">
+                    <tbody>
+                        <tr >
+                            <td colspan="4" style="">
+                                <img src="lib/img/marker2.png" alt="" style="width:16px;height:16px;border:0;"> 
+                                <span class="color1" id="coorResumen"><strong>N/A,N/A</strong></span>&nbsp;
+                            </td>
+
+                        </tr>   
+                        <tr >
+                            <td ><strong>Temperatura:</strong></td>
+                            <td id="temperatura" class="colorT">N/A</td>
+                            <td><strong>Altímetro:</strong></td>
+                            <td id="altimetro" class="colorT">N/A</td>
+                        </tr>
+                        <tr >
+                            <td><strong>Punto de rocío:</strong></td>
+                            <td id="puntoRocio" class="colorT">N/A</td>
+                            <td><strong>Visibilidad:</strong></td>
+                            <td id="visibilidad" class="colorT">N/A</td> 
+                        </tr>
+                        <tr >
+                            <td><strong>Humedad:</strong></td>
+                            <td id="humedad" class="colorT">N/A</td>                        
+                            <td><strong>LLuvia:</strong></td>
+                            <td id="lluvia" class="colorT">N/A</td>
+                        </tr>
+                        <tr>
+                            <td id="iconoViento"><strong>Dirección del viento:</strong></td>
+                            <td  id="dirViento" class="colorT">N/A</td>
+                            
+
+                        </tr>
+
+                        <tr >
+
+                            <td><strong>Velocidad del viento:</strong></td>
+                            <td id="velViento" class="colorT">N/A</td>
+                        </tr>
+
+                        <tr >
+                            <td colspan="2"><strong>Presión (Nivel del mar):</strong></td>
+                            <td colspan="2" id="presionMar" class="colorT">N/A</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                <hr>
+                <center ><p class="color1"><strong>CLIMA Y NUBES</strong></p></center>
+                <hr>
+                 <button onclick="limpiarTabla()">limpiar</button>
+                <table id="tablaNu" style=" width:100%;">
+                    <tbody id="tablaNubes">                                 
+                    </tbody>
+                </table>
+                <hr>
+                <center ><p class="color1"><strong>ESTACIÓN DE ORIGEN</strong></p></center>
+                <hr>
+                <table>
+                    <tbody>                            
+
+                        <tr>
+                            <td ><strong>Hora de observación:</strong></td>
+                            <td id="hora" class="colorT">N/A</td>
+                            <td><strong>ID:</strong></td>
+                            <td id="id" class="colorT">N/A</td>
+
+                        </tr>
+                        <tr>
+                            <td><strong>Raw text:</strong></td>
+                            <td colspan="3" id="raw" class="colorT"><strong>N/A</strong></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div id="controlConteiner2">
+                <div id="divBack2">
+                    <img src="lib/img/cancel24.png" alt="" id="imgBack2" onclick="cerrarMenuDatos()" >
+                </div>
+            </div>
+
+        </div>
+
+        <div id="forecast">
+            <div id="tForecast"><p></p><center>Pronóstico del Tiempo</center></div>
+            <div id="tablaFore">
+
+                <table>
+                    <tbody  id="tableForecast">    
+                        <tr>
+                            <td colspan="2" style="">
+                                <img src="lib/img/marker2.png" alt="" style="width:16px;height:16px;border:0;"> 
+                                <span  class="coorFore" id="coorRe"><strong></strong></span>&nbsp;
+                            </td>
+
+                        </tr>   
+                        <tr>       
+                            <td class="titulo" COLSPAN="2"><strong>Noche del jueves</strong></td>
+
+                        </tr>
+                        <tr style="border-bottom:1px solid black;">
+
+                            <td><img src="lib/img/nt_clear.gif" alt="" style=""/></td>
+                            <td class="descrip"><strong>	Cielo parcialmente cubierto, probabilidad de tormenta. Mínima de 54 F. Vientos del NNO de 5 a 10 milla/h. 30% probab. de lluvia.</strong></td>
+                        </tr>
+                        <tr>       
+                            <td class="titulo" COLSPAN="2"><strong>Noche del jueves</strong></td>
+
+                        </tr>
+                        <tr style="border-bottom:1px solid black;">
+
+                            <td><img src="lib/img/nt_clear.gif" alt="" style=""/></td>
+                            <td class="descrip"><strong>	Cielo parcialmente cubierto, probabilidad de tormenta. Mínima de 54 F. Vientos del NNO de 5 a 10 milla/h. 30% probab. de lluvia.</strong></td>
+                        </tr>
+
+                    </tbody>
+                </table> 
+
+            </div>
+            <div id="controlConteiner">
+                <div id="divBack">
+                    <img src="lib/img/back-arrow.png" alt="" id="imgBack" onclick="cerrarForecast()">
+                </div>
+                <div id="divGarbage">
+                    <img src="lib/img/garbage.png" alt="" id="imgGarbage" onclick="cerrarForecast()">
+                </div>
+            </div>
+        </div>
+
+        <script src="lib/js/mapfeatures.js" type="text/javascript"></script>
+        <script src="lib/js/mouseEvents.js" type="text/javascript"></script>
+    </body>
+</html>

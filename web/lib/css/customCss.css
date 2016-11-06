@@ -1,0 +1,348 @@
+/*
+This code was developed by Edmundo Carrillo on java technologies.
+Contact: edmundodev@gmail.com
+Hope you'll find it useful.
+*/
+/* 
+    Created on : 18/10/2016, 12:21:14 PM
+    Author     : Edmundo Carrillo
+*/
+
+
+/*Cuerpo de la pagina*/
+body, html, #map { width: 100%;height: 100%;margin: 0; }
+
+/*Controles del mapa*/
+.ol-mouse-position {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 120%;
+    font-weight: bold;
+    color: white;
+    background-color:rgba(10,10,10,.70);
+    border-left: 2px solid green;
+    border-right: 2px solid green;
+    border-bottom: 2px solid green;
+    position: absolute;
+    top: 34px;
+    right: 1%;
+    width:190px;
+    height:23px;
+    border-radius:  0px 0px 10px 10px;
+
+}
+
+.ol-scale-line {
+    border-radius: 4px;
+    border: 2px solid green;
+    text-transform: uppercase;
+    text-align: center;
+    color: white;
+    background-color:rgba(10,10,10,.70);
+    height:30px;
+
+
+}
+
+div#customlat{
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    background-color:rgba(10,10,10,.70);
+    border-left: 2px solid green;
+    border-right: 2px solid green;
+    border-top: 2px solid green;
+    position: absolute;
+    top: 9px;
+    right: 1%;
+    width:190px;
+    height:25px;
+    border-radius:  10px 10px 0px 0px;
+}
+
+.ol-scale-line-inner {
+    font-weight: bold;
+    border: 1px solid #eee;
+    border-top: none;
+    color: #eee;
+    font-size: 15px;
+    text-align: center;
+    margin: 1px;
+    will-change: contents, width
+}
+
+/*Menu principal y secundario*/
+div#menu-pr  {
+    display: none;
+    z-index:1000;
+    position: absolute;
+    background-color:white;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(114, 114, 114);
+    font-family: helvetica;
+    padding: 0px;
+    width: 12em;
+    font-size: 12px;
+    overflow: hidden;
+    white-space:nowrap;
+    list-style: none;
+    margin: 0;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+#menu-pr button {
+    display: block;
+    padding: 5px;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    width: 100%;
+    text-align: left;
+    color: #333;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+#menu-pr button:hover {
+    background-color:#393c16;
+    color: white;
+}
+
+.iconStyle {
+    width: 16px;
+    height: 16px
+}
+div#menu-sc  {
+    width: 180px;
+    display: none;
+    position: absolute;
+    background-color:white;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(114, 114, 114);
+    font-family: helvetica;
+    padding: 0px;
+    font-size: 12px;
+    list-style: none;
+    margin: 0;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+#menu-sc button {
+    display: block;
+    padding: 5px;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    width: 100%;
+    text-align: left;
+    color: #333;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+#menu-sc button:hover {
+    background-color:#393c16;
+    color: white;
+}
+
+/*menu de datos */
+
+div#myPopup{
+    display: none;
+    position: absolute;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+    text-align: left;
+    width:400px;
+    height:250px;
+    border-radius: 0px 5px 5px 5px;
+    position: absolute;  
+}
+
+
+
+
+div#myPopup    table{
+    overflow: auto;
+    border-collapse: collapse;
+}
+
+div#myPopup     th,td{
+    padding: 5px;
+}
+
+
+
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+.color1{
+    padding-top:5px;
+    color:#2dc266;
+    font-weight: bold;
+}
+hr { 
+    margin-top: 2px; 
+    margin-bottom: 2px; 
+ 
+}
+div#forecast{
+    display: none;
+    width:600px;height: 70%; 
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+    color:black;
+
+}
+div#tForecast{
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 120%;
+    font-weight: bold;
+    width:100%;height:50px;margin: 0; 
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    background-color: rgba(0,0,0,.85);
+    border: 2px solid black;
+    color:#2dc266;
+    cursor: pointer;
+}
+div#divBack{
+
+    position: absolute;
+    bottom:1px;
+    top:1px;
+    width: 50px;
+    height: 50px;
+    right: 0;
+    cursor: pointer;
+}
+div#divGarbage{
+    position: absolute;
+    bottom:1px;
+    top:1px;
+    width: 50px;
+    height: 50px;
+    left: 0;
+    cursor: pointer;
+    padding-top: 2px;
+}
+#imgBack{
+    width: 48px;
+    height: 48px;
+    bottom:0%;
+    right: 0px;
+}
+#imgGarbage{
+    width: 40px;
+    height: 40px;
+    bottom:0%;
+    left: 0px;
+}
+div#divBack :hover{
+    background-color: rgba(0,0,0,.20);
+}
+div#divGarbage :hover{
+    background-color: rgba(0,0,0,.20);
+}
+div#controlConteiner{
+    width:100%;height:50px;margin: 0; 
+    position: absolute;
+    bottom:0%;
+    border: 2px solid ;
+    background-color:rgba(0,0,0,.85);
+}
+.colorT{
+    color : #291694 ;
+}
+td#id{
+    text-align: left;
+}
+div#tablaFore{
+    overflow-y: scroll;
+    width:100%;
+    margin: 0; 
+    position: absolute;
+    top: 50px;
+    color:black;
+    cursor: pointer;
+    bottom:50px;
+    background-color:rgba(242, 239, 233,.75)
+}
+
+.descrip{
+
+    font-size:small;
+}
+.titulo{
+
+    font-size: small;
+}
+.coorFore{
+    color:#2dc266;
+    font-weight: bold;
+}
+div#tituloTiempo{
+    background-color: rgba(0,0,0,.85);
+    border: 2px solid black;
+    color:#2dc266;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: bold;
+    width:100%;height:30px;
+    position: absolute;
+    top: 0%;
+    padding-top:5px;
+}
+
+div#controlConteiner2{
+    width:100%;height:30px;
+    position: absolute;
+    bottom:0%;
+    border: 2px solid black ;
+    background-color:rgba(0,0,0,.85);
+}
+div#divBack2{
+    height:30px;
+    width: 30px;
+    position: absolute;
+    bottom:1px;
+    top:1px;
+    right: 0;
+    cursor: pointer;
+    padding-left:3px;
+}
+div#divBack2:hover{
+    background-color:rgba(255,255,255,.10);
+}
+
+#tableWeather{
+    overflow-y: scroll;
+    overflow-x: scroll;
+    width:100%;
+    margin: 0; 
+    position: absolute;
+    top: 30px;
+    color:black;
+    cursor: pointer;
+    bottom:30px;
+    background-color:rgba(242, 239, 233,.75)
+}
+
+table, th, td {
+    border: 1px solid rgba(0, 0, 0,.10);
+}
