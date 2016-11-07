@@ -19,6 +19,7 @@
     JSONObject obj = new JSONObject();
     JSONArray skyCover = new JSONArray();
     DecimalFormat decimalFormat = new DecimalFormat("#.000000");
+    DecimalFormat decimal2 = new DecimalFormat("#.00");
     Double lat = Double.valueOf(decimalFormat.format(Double.parseDouble(request.getParameter("lat"))));
     Double lon = Double.valueOf(decimalFormat.format(Double.parseDouble(request.getParameter("lon"))));
     System.out.print(lat + " " + lon);
@@ -33,7 +34,7 @@
 
     } else if (weather.isAirportSource()) {
         obj.put("temperatura", weather.getMetar().getTemperature_c());
-        obj.put("altimetro", weather.getMetar().getAltimeter_in_hg());
+        obj.put("altimetro", Double.valueOf(decimal2.format(weather.getMetar().getAltimeter_in_hg())));
         obj.put("puntoRocio", weather.getMetar().getDewpoint());
         obj.put("visibilidad", weather.getMetar().getVisibility_mi());
         obj.put("dirViento", weather.getMetar().getWind_dir_degrees());
@@ -58,8 +59,9 @@
         obj.put("visibilidad", weather.getBestObservation().getVisibility_km());
         obj.put("humedad", weather.getBestObservation().getRelative_humidity());
         obj.put("lluvia", weather.getBestObservation().getPrecip_today_string());
-        obj.put("dirViento", "N/A");
-        obj.put("velViento", "N/A");
+        obj.put("dirViento", weather.getBestObservation().getWind_degrees());
+        obj.put("velViento", Double.valueOf(decimal2.format(weather.getBestObservation().getWind_mph() * 0.539957)));
+        //System.out.print(weather.getBestObservation().getWind_mph() * 0.539957);
         obj.put("presionMar", "N/A");
         obj.put("hora", weather.getBestObservation().getObservation_time());
         obj.put("distancia", station.getDistance_km());

@@ -40,12 +40,3 @@ map.addControl(mousePositionControl);
 map.addControl(scaleLine);
 
 
-//Estilo de los marcadores
-var icon_style = new ol.style.Style({
-    image: new ol.style.Icon({
-        anchor: [0.5, 30],
-        anchorXUnits: 'fraction',
-        anchorYUnits: 'pixels',
-        src: '/Ehecacoatl1.1/lib/img/marker2.png'
-    })
-});

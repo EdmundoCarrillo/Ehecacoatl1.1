@@ -5,8 +5,22 @@
  */
 var xWp; //Coordenada x donde se encuentra el puntero.
 var yWp; //Coordenada y donde se encuentra el puntero.
+var ref2;
 var objRef; //Objeto auxiliar para funcionalidades del menu-sc, copia de feature(marcador).
 var xhr; // Objeto XMLHttpRequest (ajax).
+var vientoIMG = "lib/icons/windbarb0.svg";
+
+//Estilo del marcador
+var icon_style = new ol.style.Style({
+    image: new ol.style.Icon({
+        anchor: [0.5, 30],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'pixels',
+        src: '/Ehecacoatl1.1/lib/img/marker2.png'
+    })
+});
+
+// Funciones principales 
 function mostrarMenuPrincipal(event) {
     xWp = event.clientX;
     yWp = event.clientY;
@@ -69,14 +83,20 @@ function agregarMarcador() {
     // alert(xWp + "," + yWp);
     var coordWP = map.getCoordinateFromPixel([xWp, yWp]);
     var lonlat = ol.proj.transform(coordWP, 'EPSG:3857', 'EPSG:4326');
+    ref2 = coordWP;
+
     var icon_feature = new ol.Feature({
         geometry: new ol.geom.Point(coordWP),
         coorXY: [xWp, yWp], // para saber donde pocionar el menu secundario 
         coordenada: [lonlat[0], lonlat[1]], //Para mandar lat y lon al server
+        pos: coordWP,
         type: 'icon'
     });
+
     icon_feature.setStyle(icon_style);
     icon_layer.getSource().addFeature(icon_feature);
+
+
     ocultarMenuPrincipal();
 }
 function eliminarMarcador() {
@@ -95,7 +115,7 @@ function mostrarMenuDatos(event) {
 
     mandarCoordenadas();
     //alert(objRef.get('coorXY')[0] + "," + objRef.get('coorXY')[1]);
-    //limpiarTabla();
+    limpiarTabla();
     limpiarImgViento();
     var xMd = objRef.get('coorXY')[0];
     var yMd = objRef.get('coorXY')[1];
@@ -206,9 +226,9 @@ map.on('pointermove', function (e) {
         //$(element).popover('destroy');
         return;
     }
-    var pixel = map.getEventPixel(e.originalEvent);
-    var hit = map.hasFeatureAtPixel(pixel);
-    map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+    //var pixel = map.getEventPixel(e.originalEvent);
+    //var hit = map.hasFeatureAtPixel(pixel);
+    // map.getTargetElement().style.cursor = hit ? 'pointer' : '';
 });
 
 
@@ -237,6 +257,20 @@ function mandarCoordenadas() {
  //tabla.appendChild(contenido);
  }*/
 
+function agregarIconos() {
+
+    var coordWP = map.getCoordinateFromPixel([xWp, yWp]);
+    var lonlat = ol.proj.transform(coordWP, 'EPSG:3857', 'EPSG:4326');
+    var tempFeature = new ol.Feature({
+        geometry: new ol.geom.Point(coordWP),
+        coorXY: [xWp, yWp],
+        coordenada: [lonlat[0], lonlat[1]],
+        type: 'weather'
+    });
+    tempFeature.setStyle(tempStyle);
+    icon_layer.getSource().addFeature(tempFeature);
+}
+
 function procesaDatos() {
     //tratamineto de la respuesta
     if (xhr.readyState === 4) {
@@ -260,46 +294,150 @@ function procesaDatos() {
         document.getElementById("humedad").innerHTML = response.humedad;
         var tablaFore = document.getElementById("tableForecast");
         tablaFore.insertAdjacentHTML('afterend', response.forecastDay);
+
+
+
+
         var imgViento = document.getElementById("iconoViento");
         var speed = response.velViento;
         if (speed >= 48) {
-            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb50.png" alt="" style="width: 50px; height: 50px; \n\
+            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb50.svg" alt="" style="width: 50px; height: 50px; \n\
                                             -webkit-transform: rotate(' + response.dirViento + 'deg);"/></td>');
+            vientoIMG = "lib/icons/windbarb50.svg";
         } else if (speed >= 43) {
-            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb45.png" alt="" style="width: 50px; height: 50px; \n\
+            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb45.svg" alt="" style="width: 50px; height: 50px; \n\
                                             -webkit-transform: rotate(' + response.dirViento + 'deg);"/></td>');
+            vientoIMG = "lib/icons/windbarb45.svg";
         } else if (speed >= 38) {
-            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb40.png" alt="" style="width: 50px; height: 50px; \n\
+            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb40.svg" alt="" style="width: 50px; height: 50px; \n\
                                             -webkit-transform: rotate(' + response.dirViento + 'deg);"/></td>');
+            vientoIMG = "lib/icons/windbarb40.svg";
         } else if (speed >= 33) {
-            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb35.png" alt="" style="width: 50px; height: 50px; \n\
+            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb35.svg" alt="" style="width: 50px; height: 50px; \n\
                                             -webkit-transform: rotate(' + response.dirViento + 'deg);"/></td>');
+            vientoIMG = "lib/icons/windbarb35.svg";
         } else if (speed >= 28) {
-            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb30.png" alt="" style="width: 50px; height: 50px; \n\
+            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb30.svg" alt="" style="width: 50px; height: 50px; \n\
                                             -webkit-transform: rotate(' + response.dirViento + 'deg);"/></td>');
+            vientoIMG = "lib/icons/windbarb30.svg";
         } else if (speed >= 23) {
-            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb25.png" alt="" style="width: 50px; height: 50px; \n\
+            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb25.svg" alt="" style="width: 50px; height: 50px; \n\
                                             -webkit-transform: rotate(' + response.dirViento + 'deg);"/></td>');
+            vientoIMG = "lib/icons/windbarb25.svg";
 
         } else if (speed >= 18) {
-            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb20.png" alt="" style="width: 50px; height: 50px; \n\
+            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb20.svg" alt="" style="width: 50px; height: 50px; \n\
                                             -webkit-transform: rotate(' + response.dirViento + 'deg);"/></td>');
+            vientoIMG = "lib/icons/windbarb20.svg";
 
         } else if (speed >= 13) {
-            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb15.png" alt="" style="width: 50px; height: 50px; \n\
+            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb15.svg" alt="" style="width: 50px; height: 50px; \n\
                                             -webkit-transform: rotate(' + response.dirViento + 'deg);"/></td>');
+            vientoIMG = "lib/icons/windbarb15.svg";
         } else if (speed >= 8) {
-            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb10.png" alt="" style="width: 50px; height: 50px; \n\
+            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb10.svg" alt="" style="width: 50px; height: 50px; \n\
                                             -webkit-transform: rotate(' + response.dirViento + 'deg);"/></td>');
-
+            vientoIMG = "lib/icons/windbarb10.svg";
         } else if (speed >= 3) {
-            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb5.png" alt="" style="width: 50px; height: 50px; \n\
+            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb5.svg" alt="" style="width: 50px; height: 50px; \n\
                                             -webkit-transform: rotate(' + response.dirViento + 'deg);"/></td>');
+            vientoIMG = "lib/icons/windbarb5.svg";
         } else {
-            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb0.png" alt="" style="width: 50px; height: 50px; \n\
+            imgViento.insertAdjacentHTML('afterend', '<td id="barW" rowspan="2" colspan="2" style="text-align:center;" > <img src="lib/icons/windbarb0.svg" alt="" style="width: 50px; height: 50px; \n\
                                             -webkit-transform: rotate(' + response.dirViento + 'deg);"/></td>');
+            vientoIMG = "lib/icons/windbarb0.svg";
         }
     }
+    agregarMarcador2(response.temperatura, response.altimetro, vientoIMG, response.dirViento);
 
+}
+
+
+function agregarMarcador2(tempe, alt, viento, grados) {
+   
+    var tempStyle = new ol.style.Style({
+        text: new ol.style.Text({
+            font: 'Normal 18px Arial',
+            text: tempe + '°',
+            fill: new ol.style.Fill({
+                color: '#000'
+            }),
+            stroke: new ol.style.Stroke({
+                color: '#FF0000',
+                width: 1
+            }),
+            offsetX: -2,
+            offsetY: -40,
+            rotation: 0
+        })
+    });
+    var tempFeature = new ol.Feature({
+        geometry: new ol.geom.Point(objRef.get('pos'))
+    });
+
+    //viento
+    var iconWindStyle = new ol.style.Style({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ {
+            //scale: .15,
+            anchor: [.5, .8],
+            rotation: grados * 0.0174533,
+            src: viento,
+            scale: .15
+
+
+        })
+    });
+    var windFeature = new ol.Feature({
+        geometry: new ol.geom.Point(objRef.get('pos'))
+    });
+
+    //Altimetro
+    var altStyle = new ol.style.Style({
+        text: new ol.style.Text({
+            font: 'Normal 18px Arial',
+            text: alt + '',
+            fill: new ol.style.Fill({
+                color: '#000'
+            }),
+            stroke: new ol.style.Stroke({
+                color: '#002bff',
+                width: 1
+            }),
+            offsetX: 40,
+            offsetY: -20,
+            rotation: 0
+        })
+    });
+    var altFeature = new ol.Feature({
+        geometry: new ol.geom.Point(objRef.get('pos'))
+    });
+
+
+    //clima
+
+    var weatherStyle = new ol.style.Style({
+        image: new ol.style.Icon({
+            anchor: [1.7, 1.2],
+            src: '/Ehecacoatl1.1/lib/icons/OVX.svg',
+            scale: .1
+
+        })
+    });
+    var weatherFeature = new ol.Feature({
+        geometry: new ol.geom.Point(objRef.get('pos'))
+    });
+
+
+    tempFeature.setStyle(tempStyle);
+    icon_layer.getSource().addFeature(tempFeature);
+
+    windFeature.setStyle(iconWindStyle);
+    icon_layer.getSource().addFeature(windFeature);
+
+    altFeature.setStyle(altStyle);
+    icon_layer.getSource().addFeature(altFeature);
+
+    weatherFeature.setStyle(weatherStyle);
+    icon_layer.getSource().addFeature(weatherFeature);
 
 }

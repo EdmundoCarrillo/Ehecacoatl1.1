@@ -22,11 +22,11 @@ public class ObservationHandler extends DefaultHandler {
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
-//        if (buffer.toString().matches("-9999|-9999.0|-999.0")) {
-//            buffer.delete(0, buffer.length());
-//            buffer.append("-");
-//            System.out.println("YES2");
-//        }
+        if (buffer.toString().matches("-9999|-9999.0|-999.0")) {
+            buffer.delete(0, buffer.length());
+            buffer.append("0");
+           // System.out.println("YES2");
+       }
 
         switch (qName) {
             case "current_observation":
