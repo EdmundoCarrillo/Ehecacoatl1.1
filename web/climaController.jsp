@@ -40,6 +40,7 @@
         obj.put("dirViento", weather.getMetar().getWind_dir_degrees());
         obj.put("velViento", weather.getMetar().getWind_speed_kt());
         obj.put("presionMar", weather.getMetar().getSea_level_pressure_mb());
+        obj.put("img", weather.getMetar().getSkyConditionList().get(0).getFilePath());
         for (SkyCondition sk : weather.getMetar().getSkyConditionList()) {
             skyCover.add("<tr><td class=\"colorT\">(" + sk.getSky_cover() + ") " + sk.getSky_cover_description() + " a " + sk.getCloud_base_ft_agl()
                     + " ft</td><td><img src=\"" + sk.getFilePath() + "\" style=\"width:30px;height:30px;border:0;\"> </td></tr>");
@@ -51,11 +52,12 @@
         obj.put("raw", weather.getMetar().getRaw_text());
         obj.put("humedad", "N/A");
         obj.put("lluvia", "N/A");
+        obj.put("imgTipo", 0);
     } else if (weather.isPwsSource()) {
         JSONArray forecastDay = new JSONArray();
-        obj.put("temperatura", weather.getBestObservation().getFeelslike_string());
+        obj.put("temperatura", weather.getBestObservation().getFeelslike_c());
         obj.put("altimetro", weather.getBestObservation().getPressure_in());
-        obj.put("puntoRocio", weather.getBestObservation().getDewpoint_string());
+        obj.put("puntoRocio", weather.getBestObservation().getDewpoint_c());
         obj.put("visibilidad", weather.getBestObservation().getVisibility_km());
         obj.put("humedad", weather.getBestObservation().getRelative_humidity());
         obj.put("lluvia", weather.getBestObservation().getPrecip_today_string());
@@ -67,8 +69,12 @@
         obj.put("distancia", station.getDistance_km());
         obj.put("id", station.getStation_id());
         obj.put("raw", "N/A");
+        obj.put("img", weather.getBestObservation().getIcon_url());
+        obj.put("imgTipo", 1);
         skyCover.add("<tr><td class=\"colorT\">" + weather.getBestObservation().getWeather() + "</td><td><img src=\"" + weather.getBestObservation().getIcon_url() + "\" style=\"width:40px;height:40px;border:0;\"></td></tr>");
         obj.put("skyCover", skyCover);
+        //obj.put("iconCoor","<strong>moemoemv<strong>");
+        forecastDay.add("<tr ><td colspan=\"4\"><img src=\"lib/img/marker2.png\"  style=\"width:16px;height:16px;border:0;\"><span class=\"color1\" id=\"\"><strong>" + lon + "," + lat + "</strong></span>&nbsp;</td></tr>");
         for (ForecastDay fr : weather.getBestForecast().getTxt_forecast().getForecastdays().getForecastday()) {
             forecastDay.add("<tr><td class=\"titulo\" COLSPAN=\"2\"><strong>" + fr.getTitle() + "</strong></td></tr>"
                     + "<tr style=\"border-bottom:1px solid black;\"><td><img src=\"" + fr.getIcon_url() + "\"/></td><td class=\"descrip\"><strong>"

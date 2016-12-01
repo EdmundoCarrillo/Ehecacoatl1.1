@@ -10,7 +10,12 @@ Hope you'll find it useful.
 
 
 /*Cuerpo de la pagina*/
-body, html, #map { width: 100%;height: 100%;margin: 0; }
+body, html, #map { 
+    width: 100%;
+    height: 100%;
+    margin: 0; 
+    background-color: #b5d0d0;
+}
 
 /*Controles del mapa*/
 .ol-mouse-position {
@@ -194,7 +199,7 @@ div#myPopup     th,td{
 hr { 
     margin-top: 2px; 
     margin-bottom: 2px; 
- 
+
 }
 div#forecast{
     display: none;
@@ -345,4 +350,20 @@ div#divBack2:hover{
 
 table, th, td {
     border: 1px solid rgba(0, 0, 0,.10);
+}
+
+#prono{ 
+    text-align: center;
+    position: absolute;
+    top: 9px;
+    left: 1%;
+    cursor: pointer;
+}
+
+#deleteCapa{
+    text-align: center;
+    position: absolute;
+    bottom:9px;
+    right:1%;
+    cursor: pointer;
 }

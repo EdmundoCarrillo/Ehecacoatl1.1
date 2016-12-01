@@ -22,14 +22,15 @@ Hope you'll find it useful.
             &nbsp;
             Latitud&nbsp;&nbsp;
         </div>
+        <div id="prono"><img src="lib/img/prono2.png"  alt="" style="width:40px;height:40px;border:0;" onclick="mostrarForecast()"/></div>   
         <div id="menu-pr">
             <button onclick="agregarMarcador()"><img src="lib/img/pin_drop.png" class="iconStyle" alt=""/> &nbsp; Agregar marcador</button>
             <button onclick="ocultarMenuPrincipal()"><img src="lib/img/cancel.png" class="iconStyle" alt=""/> &nbsp; Cancelar</button>
         </div>
         <div id="menu-sc">
             <button onclick="mostrarMenuDatos(event)"><img src="lib/img/lupa.png" class="iconStyle" alt=""/> &nbsp;Resumen de información</button>
-            <button onclick="mostrarForecast()"><img src="lib/img/clima.png" class="iconStyle" alt=""/> &nbsp;Pronostico del tiempo</button>
-            <button onclick="eliminarMarcador()"><img src="lib/img/borrar.png" class="iconStyle" alt=""/> &nbsp;Eliminar marcador</button>
+            <!--  <button onclick="mostrarForecast()"><img src="lib/img/clima.png" class="iconStyle" alt=""/> &nbsp;Pronostico del tiempo</button>-->
+            <!--  <button onclick="eliminarMarcador()"><img src="lib/img/borrar.png" class="iconStyle" alt=""/> &nbsp;Eliminar marcador</button>-->
 
 
         </div>
@@ -69,7 +70,7 @@ Hope you'll find it useful.
                         <tr>
                             <td id="iconoViento"><strong>Dirección del viento:</strong></td>
                             <td  id="dirViento" class="colorT">N/A</td>
-                            
+
 
                         </tr>
 
@@ -89,7 +90,7 @@ Hope you'll find it useful.
                 <hr>
                 <center ><p class="color1"><strong>CLIMA Y NUBES</strong></p></center>
                 <hr>
-                 <button onclick="limpiarTabla()">limpiar</button>
+                <!--  <button onclick="limpiarTabla()">limpiar</button>-->
                 <table id="tablaNu" style=" width:100%;">
                     <tbody id="tablaNubes">                                 
                     </tbody>
@@ -130,32 +131,34 @@ Hope you'll find it useful.
 
                 <table>
                     <tbody  id="tableForecast">    
-                        <tr>
-                            <td colspan="2" style="">
-                                <img src="lib/img/marker2.png" alt="" style="width:16px;height:16px;border:0;"> 
-                                <span  class="coorFore" id="coorRe"><strong></strong></span>&nbsp;
-                            </td>
-
-                        </tr>   
-                        <tr>       
-                            <td class="titulo" COLSPAN="2"><strong>Noche del jueves</strong></td>
-
-                        </tr>
-                        <tr style="border-bottom:1px solid black;">
-
-                            <td><img src="lib/img/nt_clear.gif" alt="" style=""/></td>
-                            <td class="descrip"><strong>	Cielo parcialmente cubierto, probabilidad de tormenta. Mínima de 54 F. Vientos del NNO de 5 a 10 milla/h. 30% probab. de lluvia.</strong></td>
-                        </tr>
-                        <tr>       
-                            <td class="titulo" COLSPAN="2"><strong>Noche del jueves</strong></td>
-
-                        </tr>
-                        <tr style="border-bottom:1px solid black;">
-
-                            <td><img src="lib/img/nt_clear.gif" alt="" style=""/></td>
-                            <td class="descrip"><strong>	Cielo parcialmente cubierto, probabilidad de tormenta. Mínima de 54 F. Vientos del NNO de 5 a 10 milla/h. 30% probab. de lluvia.</strong></td>
-                        </tr>
-
+                        <!-- <tr>
+                             <td colspan="2" style="">
+                                 <img src="lib/img/marker2.png" alt="" style="width:16px;height:16px;border:0;"> 
+                                 <span  class="coorFore" id="coorRe"><strong></strong></span>&nbsp;
+                             </td>
+ 
+                         </tr>   
+                         
+                         
+                         <tr>       
+                             <td class="titulo" COLSPAN="2"><strong>Noche del jueves</strong></td>
+ 
+                         </tr>
+                         <tr style="border-bottom:1px solid black;">
+ 
+                             <td><img src="lib/img/nt_clear.gif" alt="" style=""/></td>
+                             <td class="descrip"><strong>	Cielo parcialmente cubierto, probabilidad de tormenta. Mínima de 54 F. Vientos del NNO de 5 a 10 milla/h. 30% probab. de lluvia.</strong></td>
+                         </tr>
+                         <tr>       
+                             <td class="titulo" COLSPAN="2"><strong>Noche del jueves</strong></td>
+ 
+                         </tr>
+                         <tr style="border-bottom:1px solid black;">
+ 
+                             <td><img src="lib/img/nt_clear.gif" alt="" style=""/></td>
+                             <td class="descrip"><strong>	Cielo parcialmente cubierto, probabilidad de tormenta. Mínima de 54 F. Vientos del NNO de 5 a 10 milla/h. 30% probab. de lluvia.</strong></td>
+                         </tr>
+                        -->
                     </tbody>
                 </table> 
 
@@ -169,7 +172,7 @@ Hope you'll find it useful.
                 </div>
             </div>
         </div>
-
+        <div id="deleteCapa"><img src="lib/img/garbage.png"  alt="" style="width:40px;height:40px;border:0;" onclick="limpiarCapa()"/></div>   
         <script src="lib/js/mapfeatures.js" type="text/javascript"></script>
         <script src="lib/js/mouseEvents.js" type="text/javascript"></script>
     </body>

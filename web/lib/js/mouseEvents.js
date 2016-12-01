@@ -9,6 +9,14 @@ var ref2;
 var objRef; //Objeto auxiliar para funcionalidades del menu-sc, copia de feature(marcador).
 var xhr; // Objeto XMLHttpRequest (ajax).
 var vientoIMG = "lib/icons/windbarb0.svg";
+var ruta = [];
+var lineaVector = new ol.geom.LineString([], 'XYZ');
+var lineaFeature = new ol.Feature({
+    geometry: lineaVector,
+    name: 'Linea',
+    id: 'ruta'
+});
+icon_layer.getSource().addFeature(lineaFeature);
 
 //Estilo del marcador
 var icon_style = new ol.style.Style({
@@ -82,6 +90,8 @@ function mostrarMenuSecundario(event) {
 function agregarMarcador() {
     // alert(xWp + "," + yWp);
     var coordWP = map.getCoordinateFromPixel([xWp, yWp]);
+    ruta.push(coordWP);
+    lineaVector.setCoordinates(ruta);
     var lonlat = ol.proj.transform(coordWP, 'EPSG:3857', 'EPSG:4326');
     ref2 = coordWP;
 
@@ -103,6 +113,13 @@ function eliminarMarcador() {
     icon_layer.getSource().removeFeature(objRef);
     ocultarMenuSecundario();
 }
+function limpiarCapa() {
+    icon_layer.getSource().clear();
+    ruta = [];
+    lineaVector.setCoordinates(ruta);
+    icon_layer.getSource().addFeature(lineaFeature);
+
+}
 
 function ocultarMenuPrincipal() {
     document.getElementById("menu-pr").style.display = "none";
@@ -115,8 +132,9 @@ function mostrarMenuDatos(event) {
 
     mandarCoordenadas();
     //alert(objRef.get('coorXY')[0] + "," + objRef.get('coorXY')[1]);
-    limpiarTabla();
-    limpiarImgViento();
+    limpiaCache();
+    // limpiarTabla();
+    // limpiarImgViento();
     var xMd = objRef.get('coorXY')[0];
     var yMd = objRef.get('coorXY')[1];
     var anchoM = 150 * 1;
@@ -270,34 +288,50 @@ function agregarIconos() {
     tempFeature.setStyle(tempStyle);
     icon_layer.getSource().addFeature(tempFeature);
 }
+function limpiaCache() {
+    document.getElementById("coorResumen").innerHTML = "N/A";
+    document.getElementById("temperatura").innerHTML = "N/A";
+    document.getElementById("altimetro").innerHTML = "N/A";
+    document.getElementById("puntoRocio").innerHTML = "N/A";
+    document.getElementById("visibilidad").innerHTML = "N/A";
+    document.getElementById("dirViento").innerHTML = "N/A";
+    document.getElementById("velViento").innerHTML = "N/A";
+    document.getElementById("presionMar").innerHTML = "N/A";
+    document.getElementById("hora").innerHTML = "N/A";
+    document.getElementById("id").innerHTML = "N/A";
+    document.getElementById("raw").innerHTML = "N/A";
+    document.getElementById("lluvia").innerHTML = "N/A";
+    document.getElementById("humedad").innerHTML = "N/A";
+    limpiarTabla();
+    limpiarImgViento();
+
+}
 
 function procesaDatos() {
     //tratamineto de la respuesta
     if (xhr.readyState === 4) {
         var response = JSON.parse(xhr.responseText);
         document.getElementById("coorResumen").innerHTML = response.coordenadas;
-        document.getElementById("coorRe").innerHTML = response.coordenadas;
-        document.getElementById("temperatura").innerHTML = response.temperatura;
-        document.getElementById("altimetro").innerHTML = response.altimetro;
-        document.getElementById("puntoRocio").innerHTML = response.puntoRocio;
-        document.getElementById("visibilidad").innerHTML = response.visibilidad;
-        document.getElementById("dirViento").innerHTML = response.dirViento;
-        document.getElementById("velViento").innerHTML = response.velViento;
-        document.getElementById("presionMar").innerHTML = response.presionMar;
+        // document.getElementById("coorRe").innerHTML = response.coordenadas;
+        document.getElementById("temperatura").innerHTML = response.temperatura + "°c";
+        document.getElementById("altimetro").innerHTML = response.altimetro + " inHg";
+        document.getElementById("puntoRocio").innerHTML = response.puntoRocio + " °c";
+        document.getElementById("visibilidad").innerHTML = response.visibilidad + " mi";
+        document.getElementById("dirViento").innerHTML = response.dirViento + "°";
+        document.getElementById("velViento").innerHTML = response.velViento + " kts";
+        document.getElementById("presionMar").innerHTML = response.presionMar + " mb";
         var tabla = document.getElementById("tablaNubes");
         tabla.insertAdjacentHTML('afterbegin', response.skyCover);
         document.getElementById("hora").innerHTML = response.hora;
         // document.getElementById("distancia").innerHTML = response.distancia;
         document.getElementById("id").innerHTML = response.id;
         document.getElementById("raw").innerHTML = response.raw;
-        document.getElementById("lluvia").innerHTML = response.lluvia;
+        document.getElementById("lluvia").innerHTML = response.lluvia + " %";
         document.getElementById("humedad").innerHTML = response.humedad;
         var tablaFore = document.getElementById("tableForecast");
+        // tablaFore.insertAdjacentHTML('afterbegin', response.iconCoor);
         tablaFore.insertAdjacentHTML('afterend', response.forecastDay);
-
-
-
-
+        var imgTipo = response.imgTipo;
         var imgViento = document.getElementById("iconoViento");
         var speed = response.velViento;
         if (speed >= 48) {
@@ -348,13 +382,13 @@ function procesaDatos() {
             vientoIMG = "lib/icons/windbarb0.svg";
         }
     }
-    agregarMarcador2(response.temperatura, response.altimetro, vientoIMG, response.dirViento);
+    agregarMarcador2(response.temperatura, response.altimetro, vientoIMG, response.dirViento, response.img, imgTipo);
 
 }
 
 
-function agregarMarcador2(tempe, alt, viento, grados) {
-   
+function agregarMarcador2(tempe, alt, viento, grados, img, imgTipo) {
+
     var tempStyle = new ol.style.Style({
         text: new ol.style.Text({
             font: 'Normal 18px Arial',
@@ -414,12 +448,19 @@ function agregarMarcador2(tempe, alt, viento, grados) {
 
 
     //clima
-
+    var x = 1.7;
+    var y = 1.2;
+    var scala = .1;
+    if (imgTipo === 1) {
+        x = 1.4;
+        y = .8;
+        scala = 1;
+    }
     var weatherStyle = new ol.style.Style({
         image: new ol.style.Icon({
-            anchor: [1.7, 1.2],
-            src: '/Ehecacoatl1.1/lib/icons/OVX.svg',
-            scale: .1
+            anchor: [x, y],
+            src: img,
+            scale: scala
 
         })
     });

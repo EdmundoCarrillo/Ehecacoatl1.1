@@ -70,7 +70,7 @@ public class SkyCondition {
         switch (sky_cover) {
             case "BKN":
                 this.setSky_cover_description("Cielo Quebradizo");
-                this.setFilePath("lib/icons/BKN.png");
+                this.setFilePath("lib/icons/BKN.svg");
                 break;
             case "CAVOK":
                 this.setSky_cover_description("Techo y visibilidad OK");
@@ -78,23 +78,23 @@ public class SkyCondition {
                 break;
             case "CLR":
                 this.setSky_cover_description("Cielo Despejado");
-                this.setFilePath("lib/icons/CLR.png");
+                this.setFilePath("lib/icons/CLR.svg");
                 break;
             case "FEW":
                 this.setSky_cover_description("Nubes Escasas");
-                this.setFilePath("lib/icons/FEW.png");
+                this.setFilePath("lib/icons/FEW.svg");
                 break;
             case "OVC":
                 this.setSky_cover_description("Cielo Cubierto");
-                this.setFilePath("lib/icons/OVC.png");
+                this.setFilePath("lib/icons/OVC.svg");
                 break;
             case "SCT":
                 this.setSky_cover_description("Nubes Dispersas");
-                this.setFilePath("lib/icons/SCT.png"); 
+                this.setFilePath("lib/icons/SCT.svg"); 
                 break;
             case "SKC":
                 this.setSky_cover_description("Cielo Despejado");
-                this.setFilePath("lib/icons/SKC.png");
+                this.setFilePath("lib/icons/SKC.svg");
                 break;
             case "TCU":
                 this.setSky_cover_description("Desarrollándose Cumulonimbus");
@@ -106,7 +106,7 @@ public class SkyCondition {
                 break;
             case "OVX":
                 this.setSky_cover_description("Cielo indefinido");
-                this.setFilePath("lib/icons/OVX.png");
+                this.setFilePath("lib/icons/OVX.svg");
                 break;
         }
 
